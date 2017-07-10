@@ -24,6 +24,7 @@ public class FirstOpMode extends LinearOpMode {
     private DcMotor pullUpMechanismLeft;
     private CRServo expansionServoLeft;
     private CRServo expansionServoRight;
+    private Servo ballDoorServo;
     private Servo colorBallSelectionServo;
     private ColorSensor colorSensor;
     private ElapsedTime period = new ElapsedTime();
@@ -31,8 +32,7 @@ public class FirstOpMode extends LinearOpMode {
 
     //    variables for servo position
     private float MIDDLE = 0.5f;
-    private float RIGHT = 0.7f;
-    private float LEFT = 0.3f;
+    private float CLOSED = 0.5f;
     /***
      *
      * waitForTick implements a periodic delay. However, this acts like a metronome
@@ -57,12 +57,6 @@ public class FirstOpMode extends LinearOpMode {
 //
 //    }
 
-    public void SynchronouslyMoveServos(CRServo servo1, CRServo servo2, double power){
-        double diff=0;
-//        diff = servo1.getController().getServoPosition(servo1.getPortNumber()) - servo2.getController().getServoPosition(servo2.getPortNumber());
-        servo1.setPower(power-diff);
-        servo2.setPower(power+diff);
-    }
 
     public void Rotate(boolean leftBumper, boolean rightBumper){
         if (leftBumper) {
@@ -109,10 +103,15 @@ public class FirstOpMode extends LinearOpMode {
         liftPullUpMechanismMotor = hardwareMap.dcMotor.get("liftPullUpMechanismMotor");
         pullUpMechanismLeft = hardwareMap.dcMotor.get("pullUpMechanismLeft");
         pullUpMechanismRight = hardwareMap.dcMotor.get("pullUpMechanismRight");
+        ballDoorServo = hardwareMap.servo.get("ballDoorServo");
 
         Ball_collecting_mechanism_operator ballMechanism = new Ball_collecting_mechanism_operator("ballMechanism",motorBallMechanism,colorBallSelectionServo,colorSensor);
         Move_robot move = new Move_robot("move",leftFrontMotor,rightFrontMotor,leftBackMotor,rightBackMotor);
         pullUp_mechanism pullUp = new pullUp_mechanism("pullUp",pullUpMechanismLeft,pullUpMechanismRight);
+        Rotate_robot rotate = new Rotate_robot("rotate",leftFrontMotor,rightFrontMotor,leftBackMotor,rightBackMotor);
+        ballDoor releaseBalls = new ballDoor("releaseBalls", ballDoorServo);
+        CRServo_Encoder expansionLeft = new CRServo_Encoder ("expansionLeft", expansionServoLeft);
+        CRServo_Encoder expansionRight = new CRServo_Encoder("expansionRight", expansionServoRight);
 
 //        reverse motors
         rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -122,6 +121,10 @@ public class FirstOpMode extends LinearOpMode {
 //        change mode move with encoder
         pullUpMechanismLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         pullUpMechanismRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set all motors to zero power
         leftFrontMotor.setPower(0);
@@ -155,6 +158,10 @@ public class FirstOpMode extends LinearOpMode {
 
             move.start();
             pullUp.start();
+            rotate.start();
+            releaseBalls.start();
+            expansionLeft.start();
+            expansionRight.start();
 
            ; while (opModeIsActive()) {
                 // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
@@ -164,20 +171,19 @@ public class FirstOpMode extends LinearOpMode {
 
                 move.setXY(-gamepad1.left_stick_x,gamepad1.left_stick_y);
                 pullUp.setUpDown(gamepad1.dpad_up, gamepad1.dpad_down);
+                rotate.setBumpers(gamepad1.left_bumper, gamepad1.right_bumper);
+                releaseBalls.setButtons(gamepad1.x, gamepad1.b, gamepad1.a);
 
                 if (gamepad1.dpad_right){
-                    SynchronouslyMoveServos(expansionServoLeft, expansionServoRight, -0.7);
+                    expansionLeft.synchronouslyMoveServos(expansionRight, -0.7);
                 } else {
                     if (gamepad1.dpad_left) {
-                        SynchronouslyMoveServos(expansionServoLeft, expansionServoRight, 0.7);
+                        expansionLeft.synchronouslyMoveServos(expansionRight, 0.7);
                     } else {
-                        SynchronouslyMoveServos(expansionServoLeft, expansionServoRight, 0);
+                        expansionLeft.synchronouslyMoveServos(expansionRight, 0);
                     }
                 }
 
-                leftBumper = gamepad1.left_bumper;
-                rightBumper = gamepad1.right_bumper;
-                Rotate(leftBumper, rightBumper);
 
                 if (gamepad1.y) {
                     if (isCollecting) {
@@ -218,6 +224,7 @@ public class FirstOpMode extends LinearOpMode {
             move.exterminate();
             pullUp.exterminate();
             ballMechanism.pause();
+            rotate.exterminate();
             Thread.sleep(100);
             leftFrontMotor.setPower(0);
             rightFrontMotor.setPower(0);

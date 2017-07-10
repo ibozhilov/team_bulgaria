@@ -17,6 +17,8 @@ public class Move_robot extends Thread {
     private double Y;
     private double powerLF;
     private double powerLB;
+    private boolean leftBumper;
+    private boolean rightBumper;
     private boolean exterminate;
 
     Move_robot (String name, DcMotor motorLF, DcMotor motorRF, DcMotor motorLB, DcMotor motorRB){
@@ -42,6 +44,11 @@ public class Move_robot extends Thread {
     public void setXY(double x, double y){
         X = x;
         Y = y;
+    }
+
+    public void setBumpers(boolean LBumper, boolean RBumper){
+        leftBumper = LBumper;
+        rightBumper = RBumper;
     }
 
     public void run(){

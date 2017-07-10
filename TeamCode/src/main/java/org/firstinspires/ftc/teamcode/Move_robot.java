@@ -46,9 +46,27 @@ public class Move_robot extends Thread {
         Y = y;
     }
 
-    public void setBumpers(boolean LBumper, boolean RBumper){
+    public void rotateRobot(boolean LBumper, boolean RBumper){
         leftBumper = LBumper;
         rightBumper = RBumper;
+        if (leftBumper) {
+            leftFrontMotor.setPower(1);
+            rightFrontMotor.setPower(-1);
+            leftBackMotor.setPower(1);
+            rightBackMotor.setPower(-1);
+        }
+        if (rightBumper) {
+            leftFrontMotor.setPower(-1);
+            rightFrontMotor.setPower(1);
+            leftBackMotor.setPower(-1);
+            rightBackMotor.setPower(1);
+        }
+        else{
+            leftFrontMotor.setPower(0);
+            rightFrontMotor.setPower(0);
+            leftBackMotor.setPower(0);
+            rightBackMotor.setPower(0);
+        }
     }
 
     public void run(){

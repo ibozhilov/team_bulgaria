@@ -108,7 +108,6 @@ public class FirstOpMode extends LinearOpMode {
         Ball_collecting_mechanism_operator ballMechanism = new Ball_collecting_mechanism_operator("ballMechanism",motorBallMechanism,colorBallSelectionServo,colorSensor);
         Move_robot move = new Move_robot("move",leftFrontMotor,rightFrontMotor,leftBackMotor,rightBackMotor);
         pullUp_mechanism pullUp = new pullUp_mechanism("pullUp",pullUpMechanismLeft,pullUpMechanismRight);
-        Rotate_robot rotate = new Rotate_robot("rotate",leftFrontMotor,rightFrontMotor,leftBackMotor,rightBackMotor);
         ballDoor releaseBalls = new ballDoor("releaseBalls", ballDoorServo);
         CRServo_Encoder expansionLeft = new CRServo_Encoder ("expansionLeft", expansionServoLeft);
         CRServo_Encoder expansionRight = new CRServo_Encoder("expansionRight", expansionServoRight);
@@ -155,10 +154,10 @@ public class FirstOpMode extends LinearOpMode {
             liftPullUpMechanismMotor.setPower(1);
             Thread.sleep(1000);
             colorBallSelectionServo.setPosition(MIDDLE);
+            ballDoorServo.setPosition(CLOSED);
 
             move.start();
             pullUp.start();
-            rotate.start();
             releaseBalls.start();
             expansionLeft.start();
             expansionRight.start();
@@ -171,7 +170,7 @@ public class FirstOpMode extends LinearOpMode {
 
                 move.setXY(-gamepad1.left_stick_x,gamepad1.left_stick_y);
                 pullUp.setUpDown(gamepad1.dpad_up, gamepad1.dpad_down);
-                rotate.setBumpers(gamepad1.left_bumper, gamepad1.right_bumper);
+                move.rotateRobot(gamepad1.left_bumper, gamepad1.right_bumper);
                 releaseBalls.setButtons(gamepad1.x, gamepad1.b, gamepad1.a);
 
                 if (gamepad1.dpad_right){
@@ -224,7 +223,6 @@ public class FirstOpMode extends LinearOpMode {
             move.exterminate();
             pullUp.exterminate();
             ballMechanism.pause();
-            rotate.exterminate();
             Thread.sleep(100);
             leftFrontMotor.setPower(0);
             rightFrontMotor.setPower(0);

@@ -12,7 +12,7 @@ public class CRServo_Encoder extends Thread{
     private CRServo crServo;
     private CRServo_Encoder synchronizeServo;
     private boolean exterminate;
-    private int encoderRotations;
+    private double encoderRotations;
     private double encoderPrevious;
     private double encoderNow;
     private double diffEncoder;
@@ -37,7 +37,7 @@ public class CRServo_Encoder extends Thread{
         exterminate = true;
     }
 
-    public int numberRotations(){
+    public double numberRotations(){
         return encoderRotations;
     }
 
@@ -61,9 +61,11 @@ public class CRServo_Encoder extends Thread{
         synchronizeServo = servo2;
         powerServo = power;
         double diffPower = 0;
-        diffPower = this.numberRotations() - servo2.numberRotations();
-        crServo.setPower(power - diffPower);
-        servo2.setPower(power + diffPower);
+        while(true){
+            diffPower = this.numberRotations() - servo2.numberRotations();
+            crServo.setPower(power - diffPower);
+            servo2.setPower(power + diffPower);
+        }
     }
 
     public void run(){
@@ -74,7 +76,7 @@ public class CRServo_Encoder extends Thread{
                 encoderNow = crServo.getController().getServoPosition(crServo.getPortNumber());
                 diffEncoder = encoderPrevious - encoderNow;
                 if(diffEncoder == 1 || diffEncoder == -1){
-                    encoderRotations = encoderRotations + 1;
+                    encoderRotations = encoderRotations + 0.1;
                 }
                 encoderPrevious = encoderNow;
                 Thread.sleep(50);

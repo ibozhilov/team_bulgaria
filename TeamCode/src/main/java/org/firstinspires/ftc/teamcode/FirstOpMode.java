@@ -127,12 +127,14 @@ public class FirstOpMode extends LinearOpMode {
 
             telemetry.addData("Set servo position.","");
             telemetry.update();
-            expansionServoLeft.getController().setServoPosition(expansionServoLeft.getPortNumber(),0);
-            expansionServoRight.getController().setServoPosition(expansionServoRight.getPortNumber(),0);
+//            expansionServoLeft.getController().setServoPosition(expansionServoLeft.getPortNumber(),0);
+//            expansionServoRight.getController().setServoPosition(expansionServoRight.getPortNumber(),0);
 
             liftPullUpMechanismMotor.setPower(1);
             Thread.sleep(1000);
             colorBallSelectionServo.setPosition(MIDDLE);
+            Thread.sleep(1000);
+            liftPullUpMechanismMotor.setPower(0.1);
             ballDoorServo.setPosition(CLOSED);
 
             move.start();
@@ -153,9 +155,13 @@ public class FirstOpMode extends LinearOpMode {
                 releaseBalls.setButtons(gamepad1.x, gamepad1.b, gamepad1.a);
 
                 if (gamepad1.dpad_right){
+                    expansionLeft.resetServo();
+                    expansionRight.resetServo();
                     expansionLeft.synchronouslyMoveServos(expansionRight, -0.7);
                 } else {
                     if (gamepad1.dpad_left) {
+                        expansionLeft.resetServo();
+                        expansionRight.resetServo();
                         expansionLeft.synchronouslyMoveServos(expansionRight, 0.7);
                     } else {
                         expansionLeft.synchronouslyMoveServos(expansionRight, 0);

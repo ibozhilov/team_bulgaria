@@ -91,6 +91,8 @@ public class FirstOpMode extends LinearOpMode {
         CRServo_Encoder expansionLeft = new CRServo_Encoder ("expansionLeft", expansionServoLeft);
         CRServo_Encoder expansionRight = new CRServo_Encoder("expansionRight", expansionServoRight);
 
+        expansionLeft.set2Servo(expansionRight);
+
 //        reverse motors
         rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -155,16 +157,12 @@ public class FirstOpMode extends LinearOpMode {
                 releaseBalls.setButtons(gamepad1.x, gamepad1.b, gamepad1.a);
 
                 if (gamepad1.dpad_right){
-                    expansionLeft.resetServo();
-                    expansionRight.resetServo();
-                    expansionLeft.synchronouslyMoveServos(expansionRight, -0.7);
+                    expansionLeft.setPowerSync(true, -0.7);
                 } else {
                     if (gamepad1.dpad_left) {
-                        expansionLeft.resetServo();
-                        expansionRight.resetServo();
-                        expansionLeft.synchronouslyMoveServos(expansionRight, 0.7);
+                        expansionLeft.setPowerSync(true, 0.7);
                     } else {
-                        expansionLeft.synchronouslyMoveServos(expansionRight, 0);
+                        expansionLeft.setPowerSync(false, 0);
                     }
                 }
 

@@ -16,9 +16,8 @@ public class CRServo_Encoder extends Thread{
     private double encoderPrevious;
     private double encoderNow;
     private double diffEncoder;
-    private double diffPower;
     private double powerSyncMove;
-    private boolean moveSynchronously;
+    private int moveSynchronously;
 
     CRServo_Encoder(String name, CRServo servo){
         threadName = name;
@@ -42,6 +41,10 @@ public class CRServo_Encoder extends Thread{
         return encoderRotations;
     }
 
+//    public double getPowerSyncMove(){
+//        return powerSyncMove;
+//    }
+
     public void setPower(double power){
         crServo.setPower(power);
     }
@@ -58,9 +61,9 @@ public class CRServo_Encoder extends Thread{
         servo2 = secondServo;
     }
 
-    public void setPowerSync(boolean Sync, double power){
-        Sync = moveSynchronously;
-        power = powerSyncMove;
+    public void setPowerSync(int Sync, double power){
+        moveSynchronously = Sync;
+        powerSyncMove = power;
     }
 
     public void run(){
@@ -81,16 +84,18 @@ public class CRServo_Encoder extends Thread{
                     encoderRotations = encoderRotations + diffEncoder;
                 }
                 encoderPrevious = encoderNow;
-                if (moveSynchronously && servo2 != null) {
+                if (servo2 != null) {
                     error = this.numberRotations() - servo2.numberRotations();
-                    crServo.setPower(powerSyncMove - diffPower);
-                    servo2.setPower(powerSyncMove + diffPower);
+                    crServo.setPower(moveSynchronously*(powerSyncMove + error));
+                    servo2.setPower(moveSynchronously*(powerSyncMove - error));
                 }
                 Thread.sleep(50);
             }
             crServo.setPower(0);
+            servo2.setPower(0);
         } catch(Exception e){
             crServo.setPower(0);
+            servo2.setPower(0);
         }
     }
 }

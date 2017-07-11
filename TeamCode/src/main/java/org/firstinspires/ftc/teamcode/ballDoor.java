@@ -10,8 +10,8 @@ public class ballDoor extends Thread{
     private Thread t;
     private String threadName;
     private float CLOSED = 0.5f;
-    private float ORANGE = 0.75f;
-    private float BLUE = 0.25f;
+    private float ORANGE = 0.8f;
+    private float BLUE = 0.2f;
     private Servo ballDoorServo;
     private boolean exterminate;
     private boolean closeDoor;

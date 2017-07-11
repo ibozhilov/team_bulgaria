@@ -33,6 +33,8 @@ public class FirstOpMode extends LinearOpMode {
     //    variables for servo position
     private float MIDDLE = 0.5f;
     private float CLOSED = 0.5f;
+
+    private int i;
     /***
      *
      * waitForTick implements a periodic delay. However, this acts like a metronome
@@ -88,10 +90,10 @@ public class FirstOpMode extends LinearOpMode {
         Move_robot move = new Move_robot("move",leftFrontMotor,rightFrontMotor,leftBackMotor,rightBackMotor);
         pullUp_mechanism pullUp = new pullUp_mechanism("pullUp",pullUpMechanismLeft,pullUpMechanismRight);
         ballDoor releaseBalls = new ballDoor("releaseBalls", ballDoorServo);
-        CRServo_Encoder expansionLeft = new CRServo_Encoder ("expansionLeft", expansionServoLeft);
-        CRServo_Encoder expansionRight = new CRServo_Encoder("expansionRight", expansionServoRight);
+//        CRServo_Encoder expansionLeft = new CRServo_Encoder ("expansionLeft", expansionServoLeft);
+//        CRServo_Encoder expansionRight = new CRServo_Encoder("expansionRight", expansionServoRight);
 
-        expansionLeft.set2Servo(expansionRight);
+//        expansionLeft.set2Servo(expansionRight);
 
 //        reverse motors
         rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -101,10 +103,10 @@ public class FirstOpMode extends LinearOpMode {
 //        change mode move with encoder
         pullUpMechanismLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         pullUpMechanismRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set all motors to zero power
         leftFrontMotor.setPower(0);
@@ -127,23 +129,25 @@ public class FirstOpMode extends LinearOpMode {
         try {
 // run until the end of the match (driver presses STOP)
 
-            telemetry.addData("Set servo position.","");
-            telemetry.update();
+//            telemetry.addData("Set servo position.","");
+//            telemetry.update();
 //            expansionServoLeft.getController().setServoPosition(expansionServoLeft.getPortNumber(),0);
 //            expansionServoRight.getController().setServoPosition(expansionServoRight.getPortNumber(),0);
 
-            liftPullUpMechanismMotor.setPower(1);
-            Thread.sleep(1000);
+//            liftPullUpMechanismMotor.setPower(1);
+//            Thread.sleep(1000);
             colorBallSelectionServo.setPosition(MIDDLE);
             Thread.sleep(1000);
-            liftPullUpMechanismMotor.setPower(0.1);
+//            liftPullUpMechanismMotor.setPower(0.1);
+
             ballDoorServo.setPosition(CLOSED);
+            Thread.sleep(1000);
 
             move.start();
             pullUp.start();
             releaseBalls.start();
-            expansionLeft.start();
-            expansionRight.start();
+//            expansionLeft.start();
+//            expansionRight.start();
 
            ; while (opModeIsActive()) {
                 // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
@@ -156,15 +160,15 @@ public class FirstOpMode extends LinearOpMode {
                 move.rotateRobot(gamepad1.left_bumper, gamepad1.right_bumper);
                 releaseBalls.setButtons(gamepad1.x, gamepad1.b, gamepad1.a);
 
-                if (gamepad1.dpad_right){
-                    expansionLeft.setPowerSync(true, -0.7);
-                } else {
-                    if (gamepad1.dpad_left) {
-                        expansionLeft.setPowerSync(true, 0.7);
-                    } else {
-                        expansionLeft.setPowerSync(false, 0);
-                    }
-                }
+//                if (gamepad1.dpad_right){
+//                    expansionLeft.setPowerSync(1, -0.5);
+//                } else {
+//                    if (gamepad1.dpad_left) {
+//                        expansionLeft.setPowerSync(1, 0.5);
+//                    } else {
+//                        expansionLeft.setPowerSync(0, 0);
+//                    }
+//                }]
 
 
                 if (gamepad1.y) {
@@ -206,6 +210,8 @@ public class FirstOpMode extends LinearOpMode {
             move.exterminate();
             pullUp.exterminate();
             ballMechanism.pause();
+//            expansionLeft.exterminate();
+//            expansionRight.exterminate();
             Thread.sleep(100);
             leftFrontMotor.setPower(0);
             rightFrontMotor.setPower(0);

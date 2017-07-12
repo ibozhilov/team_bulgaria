@@ -34,6 +34,7 @@ public class Move_robot extends Thread {
         if (t == null){
             t = new Thread(this, threadName);
             exterminate = false;
+            forwardDirection = 1;
             t.start();
         }
     }

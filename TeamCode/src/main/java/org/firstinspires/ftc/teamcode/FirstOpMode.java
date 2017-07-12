@@ -155,7 +155,7 @@ public class FirstOpMode extends LinearOpMode {
 
 
                 move.setXY(-gamepad1.left_stick_x,gamepad1.left_stick_y);
-                pullUp.setUpDown(gamepad1.dpad_up, gamepad1.dpad_down);
+                pullUp.setUpDown(gamepad2.dpad_up, gamepad2.dpad_down);
                 move.rotateRobot(gamepad1.left_bumper, gamepad1.right_bumper);
                 releaseBalls.setButtons(gamepad2.a, gamepad2.b, gamepad2.x);
                 expandContainer.setSticksY(gamepad2.left_stick_y, gamepad2.right_stick_y);
@@ -171,20 +171,20 @@ public class FirstOpMode extends LinearOpMode {
 //                }]
 
 
-                if (gamepad1.y) {
+                if (gamepad2.y) {
                     if (isCollecting) {
                         ballMechanism.pause();
                     } else {
                         ballMechanism.start();
                     }
                     isCollecting = !isCollecting;
-                    while (gamepad1.y) {
+                    while (gamepad2.y) {
                     }
                 }
 
-                if (gamepad1.a){
+                if (gamepad1.y){
                     move.ChangeDirection();
-                    while (gamepad1.a){
+                    while (gamepad1.y){
                     }
                 }
 

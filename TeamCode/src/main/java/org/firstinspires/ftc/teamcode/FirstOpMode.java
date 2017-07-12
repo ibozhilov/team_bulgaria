@@ -69,6 +69,7 @@ public class FirstOpMode extends LinearOpMode {
         double powerLF;
         double powerLB;
         boolean isCollecting = false;
+        boolean changeDirectionForward = false;
         boolean isLiftingPullUpMechanism = false;
 
 //        map motors
@@ -90,6 +91,7 @@ public class FirstOpMode extends LinearOpMode {
         Move_robot move = new Move_robot("move",leftFrontMotor,rightFrontMotor,leftBackMotor,rightBackMotor);
         pullUp_mechanism pullUp = new pullUp_mechanism("pullUp",pullUpMechanismLeft,pullUpMechanismRight);
         ballDoor releaseBalls = new ballDoor("releaseBalls", ballDoorServo);
+        Expansion_container expandContainer = new Expansion_container("expandContainer0", expansionServoLeft, expansionServoRight);
 //        CRServo_Encoder expansionLeft = new CRServo_Encoder ("expansionLeft", expansionServoLeft);
 //        CRServo_Encoder expansionRight = new CRServo_Encoder("expansionRight", expansionServoRight);
 
@@ -103,10 +105,6 @@ public class FirstOpMode extends LinearOpMode {
 //        change mode move with encoder
         pullUpMechanismLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         pullUpMechanismRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        leftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set all motors to zero power
         leftFrontMotor.setPower(0);
@@ -146,6 +144,7 @@ public class FirstOpMode extends LinearOpMode {
             move.start();
             pullUp.start();
             releaseBalls.start();
+            expandContainer.start();
 //            expansionLeft.start();
 //            expansionRight.start();
 
@@ -158,7 +157,8 @@ public class FirstOpMode extends LinearOpMode {
                 move.setXY(-gamepad1.left_stick_x,gamepad1.left_stick_y);
                 pullUp.setUpDown(gamepad1.dpad_up, gamepad1.dpad_down);
                 move.rotateRobot(gamepad1.left_bumper, gamepad1.right_bumper);
-                releaseBalls.setButtons(gamepad1.x, gamepad1.b, gamepad1.a);
+                releaseBalls.setButtons(gamepad1.a, gamepad1.b, gamepad1.x);
+                expandContainer.setSticksY(gamepad2.left_stick_y, gamepad2.right_stick_y);
 
 //                if (gamepad1.dpad_right){
 //                    expansionLeft.setPowerSync(1, -0.5);
@@ -179,6 +179,17 @@ public class FirstOpMode extends LinearOpMode {
                     }
                     isCollecting = !isCollecting;
                     while (gamepad1.y) {
+                    }
+                }
+
+                if (gamepad1.left_trigger == 1){
+                    if (changeDirectionForward){
+                        Move_robot.setForwardDirection(1);
+                    } else {
+                        Move_robot.setForwardDirection(-1);
+                    }
+                    changeDirectionForward = !changeDirectionForward;
+                    while (gamepad1.left_trigger == 1){
                     }
                 }
 
@@ -210,6 +221,7 @@ public class FirstOpMode extends LinearOpMode {
             move.exterminate();
             pullUp.exterminate();
             ballMechanism.pause();
+            Expansion_container.exterminate();
 //            expansionLeft.exterminate();
 //            expansionRight.exterminate();
             Thread.sleep(100);

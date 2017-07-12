@@ -19,6 +19,7 @@ public class Move_robot extends Thread {
     private double powerLB;
     private boolean leftBumper;
     private boolean rightBumper;
+    private static int forwardDirection;
     private boolean exterminate;
 
     Move_robot (String name, DcMotor motorLF, DcMotor motorRF, DcMotor motorLB, DcMotor motorRB){
@@ -44,6 +45,10 @@ public class Move_robot extends Thread {
     public void setXY(double x, double y){
         X = x;
         Y = y;
+    }
+
+    public static void setForwardDirection(int direction){
+        forwardDirection = direction;
     }
 
     public void rotateRobot(boolean LBumper, boolean RBumper){
@@ -72,8 +77,8 @@ public class Move_robot extends Thread {
     public void run(){
         try {
             while(!exterminate) {
-                powerLF = (X + Y) / Math.sqrt(2);
-                powerLB = (Y - X) / Math.sqrt(2);
+                powerLF = (X + Y) / Math.sqrt(2) * forwardDirection;
+                powerLB = (Y - X) / Math.sqrt(2) * forwardDirection;
                 leftFrontMotor.setPower(powerLF);
                 rightFrontMotor.setPower(powerLB);
                 leftBackMotor.setPower(powerLF);

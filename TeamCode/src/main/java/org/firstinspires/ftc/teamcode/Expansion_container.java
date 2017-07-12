@@ -43,9 +43,9 @@ public class Expansion_container extends Thread{
             while(!exterminate){
                 crServoLeft.setPower(leftStickY);
                 crServoRight.setPower(rightStickY);
-                crServoRight.setPower(0);
-                crServoLeft.setPower(0);
             }
+            crServoRight.setPower(0);
+            crServoLeft.setPower(0);
         }catch (Exception e){
             crServoRight.setPower(0);
             crServoLeft.setPower(0);

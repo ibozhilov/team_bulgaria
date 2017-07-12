@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 public class Ball_collecting_mechanism_operator extends Thread {
-    private float MIDDLE = 0.5f;
+    private float MIDDLE = 0.51f;
     private float RIGHT = 0.7f;
     private float LEFT = 0.3f;
     private Thread t;

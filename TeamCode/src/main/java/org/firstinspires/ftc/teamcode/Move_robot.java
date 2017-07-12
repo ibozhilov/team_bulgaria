@@ -19,7 +19,7 @@ public class Move_robot extends Thread {
     private double powerLB;
     private boolean leftBumper;
     private boolean rightBumper;
-    private static int forwardDirection;
+    private int forwardDirection;
     private boolean exterminate;
 
     Move_robot (String name, DcMotor motorLF, DcMotor motorRF, DcMotor motorLB, DcMotor motorRB){
@@ -48,8 +48,8 @@ public class Move_robot extends Thread {
         Y = y;
     }
 
-    public static void setForwardDirection(int direction){
-        forwardDirection = direction;
+    public void ChangeDirection(){
+        this.forwardDirection = this.forwardDirection*(-1);
     }
 
     public void rotateRobot(boolean LBumper, boolean RBumper){

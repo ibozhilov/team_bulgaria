@@ -31,8 +31,8 @@ public class FirstOpMode extends LinearOpMode {
 
 
     //    variables for servo position
-    private float MIDDLE = 0.5f;
-    private float CLOSED = 0.5f;
+    private float MIDDLE = 0.51f;
+    private float CLOSED = 0.55f;
 
     private int i;
     /***
@@ -157,7 +157,7 @@ public class FirstOpMode extends LinearOpMode {
                 move.setXY(-gamepad1.left_stick_x,gamepad1.left_stick_y);
                 pullUp.setUpDown(gamepad1.dpad_up, gamepad1.dpad_down);
                 move.rotateRobot(gamepad1.left_bumper, gamepad1.right_bumper);
-                releaseBalls.setButtons(gamepad1.a, gamepad1.b, gamepad1.x);
+                releaseBalls.setButtons(gamepad2.a, gamepad2.b, gamepad2.x);
                 expandContainer.setSticksY(gamepad2.left_stick_y, gamepad2.right_stick_y);
 
 //                if (gamepad1.dpad_right){
@@ -182,17 +182,11 @@ public class FirstOpMode extends LinearOpMode {
                     }
                 }
 
-                if (gamepad1.left_trigger == 1){
-                    if (changeDirectionForward){
-                        Move_robot.setForwardDirection(1);
-                    } else {
-                        Move_robot.setForwardDirection(-1);
-                    }
-                    changeDirectionForward = !changeDirectionForward;
-                    while (gamepad1.left_trigger == 1){
+                if (gamepad1.a){
+                    move.ChangeDirection();
+                    while (gamepad1.a){
                     }
                 }
-
 
 // Send telemetry message to signify robot running
 
@@ -221,7 +215,7 @@ public class FirstOpMode extends LinearOpMode {
             move.exterminate();
             pullUp.exterminate();
             ballMechanism.pause();
-            Expansion_container.exterminate();
+            expandContainer.exterminate();
 //            expansionLeft.exterminate();
 //            expansionRight.exterminate();
             Thread.sleep(100);

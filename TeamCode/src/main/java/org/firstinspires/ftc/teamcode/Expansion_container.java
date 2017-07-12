@@ -11,7 +11,7 @@ public class Expansion_container extends Thread{
     private String threadName;
     private CRServo crServoLeft;
     private CRServo crServoRight;
-    private static boolean exterminate;
+    private boolean exterminate;
     private double leftStickY;
     private double rightStickY;
 
@@ -29,7 +29,7 @@ public class Expansion_container extends Thread{
         }
     }
 
-    public static void exterminate(){
+    public void exterminate(){
         exterminate = true;
     }
 

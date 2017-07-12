@@ -9,9 +9,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ballDoor extends Thread{
     private Thread t;
     private String threadName;
-    private float CLOSED = 0.5f;
-    private float ORANGE = 0.8f;
-    private float BLUE = 0.2f;
+    private float CLOSED = 0.55f;
+    private float ORANGE = 1f;
+    private float BLUE = 0f;
     private Servo ballDoorServo;
     private boolean exterminate;
     private boolean closeDoor;

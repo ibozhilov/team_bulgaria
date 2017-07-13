@@ -168,20 +168,20 @@ public class FirstOpMode extends LinearOpMode {
 //                }]
 
 
-                if (gamepad2.y) {
+                if (gamepad1.y) {
                     if (isCollecting) {
                         ballMechanism.pause();
                     } else {
                         ballMechanism.start();
                     }
                     isCollecting = !isCollecting;
-                    while (gamepad2.y) {
+                    while (gamepad1.y) {
                     }
                 }
 
-                if (gamepad1.y){
+                if (gamepad1.a){
                     move.ChangeDirection();
-                    while (gamepad1.y){
+                    while (gamepad1.a){
                     }
                 }
 

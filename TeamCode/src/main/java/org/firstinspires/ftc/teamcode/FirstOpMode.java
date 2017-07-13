@@ -119,9 +119,7 @@ public class FirstOpMode extends LinearOpMode {
         expansionServoRight.setPower(0);
 
 
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Driver"); //
-        telemetry.update();
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         try {
@@ -132,11 +130,11 @@ public class FirstOpMode extends LinearOpMode {
 //            expansionServoLeft.getController().setServoPosition(expansionServoLeft.getPortNumber(),0);
 //            expansionServoRight.getController().setServoPosition(expansionServoRight.getPortNumber(),0);
 
-//            liftPullUpMechanismMotor.setPower(1);
-//            Thread.sleep(1000);
+            liftPullUpMechanismMotor.setPower(1);
+            Thread.sleep(1000);
             colorBallSelectionServo.setPosition(MIDDLE);
             Thread.sleep(1000);
-//            liftPullUpMechanismMotor.setPower(0.1);
+            liftPullUpMechanismMotor.setPower(0.1);
 
             ballDoorServo.setPosition(CLOSED);
             Thread.sleep(1000);
@@ -151,7 +149,6 @@ public class FirstOpMode extends LinearOpMode {
            ; while (opModeIsActive()) {
                 // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
 
-//                telemetry.addData("period", period);
 
 
                 move.setXY(-gamepad1.left_stick_x,gamepad1.left_stick_y);
@@ -190,19 +187,6 @@ public class FirstOpMode extends LinearOpMode {
 
 // Send telemetry message to signify robot running
 
-//                expansionServoRight.getController().setServoPosition(expansionServoLeft.getPortNumber(),0.3);
-//                telemetry.addData("servoLeft", "%f",
-//                        expansionServoLeft.getController().getServoPosition(expansionServoLeft.getPortNumber()));
-//                telemetry.addData("servoRight", "%f",
-//                        expansionServoRight.getController().getServoPosition(expansionServoRight.getPortNumber()));
-//                telemetry.addData("running", ballMechanism.running);
-//                telemetry.addData("isCollecting", isCollecting);
-//                telemetry.addData("color green", "%d", colorSensor.green());
-//                telemetry.addData("color blue", "%d", colorSensor.blue());
-//                telemetry.addData("color red", "%d", colorSensor.red());
-//                telemetry.addData("colorServo", colorBallSelectionServo.getPosition());
-//                telemetry.addData("motor","%d",leftFrontMotor.getCurrentPosition());
-//                telemetry.update();
 // Pause for metronome tick. 40 mS each cycle = update 25 times a second.
                 waitForTick(40);
             }
